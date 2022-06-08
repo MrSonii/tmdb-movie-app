@@ -1,0 +1,51 @@
+.main {
+  color: rgb(184, 184, 184);
+  flex: 0 0 75%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid grey;
+  border-radius: 25px;
+  margin: 0 0 0 5px;
+}
+
+.posterCont {
+  flex: 0 0 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.detailCont {
+  display: flex;
+  flex: 0 0 70%;
+  height: 55%;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.backdrop_img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(0%, -30%);
+  z-index: -1;
+  width: 100%;
+  opacity: 0.1;
+}
+
+.detailCont > * {
+  flex: 0 0 100%;
+}
+
+.border15px {
+  border-radius: 15px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

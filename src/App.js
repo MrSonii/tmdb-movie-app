@@ -4,10 +4,13 @@ import { get } from "axios";
 import "./App.css";
 import Header from "./components/Header/Header";
 import SideBar from "./components/Body/Sidebar";
+import Main from "./components/Body/Main";
 
 function App() {
   const [userInput, setUserInput] = useState("");
   const [apiData, setApiData] = useState("");
+  const [detailScreen, setDetailScreen] = useState(false);
+  const [currMov, setCurrMovie] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -23,10 +26,21 @@ function App() {
     setUserInput(e.target.value);
   };
 
+  const showScreen = (e) => {
+    setDetailScreen(true);
+    setCurrMovie(JSON.parse(e.currentTarget.dataset.all));
+  };
+
+  const hideScreen = () => {
+    setDetailScreen(false);
+  };
   return (
-    <div className="app">
+    <div>
       <Header onChange={onInputChangeHandeler} />
-      <SideBar apiData={apiData} />
+      <div className="body-cont">
+        <SideBar apiData={apiData} onClick={showScreen} />
+        {detailScreen && <Main data={currMov} onClick={hideScreen} />}
+      </div>
     </div>
   );
 }
