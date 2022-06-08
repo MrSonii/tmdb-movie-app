@@ -2,10 +2,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px;
+  /* margin: 10px; */
   padding: 5px;
   border-radius: 7px;
   background: grey;
+}
+
+.header_cont {
+  padding: 5px;
 }
 
 .logo {
@@ -17,7 +21,7 @@
   font-size: 1.2rem;
   border: 0;
   border-radius: 7px;
-  width: 150px;
+  width: 87%;
   color: grey;
   background-color: rgb(46, 46, 46);
   outline: 0;

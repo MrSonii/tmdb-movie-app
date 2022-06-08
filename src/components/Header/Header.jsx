@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 
 import classes from "./Header.module.css";
 
-function Header() {
-  const [userInput, setUserInput] = useState("");
+const searchButton = (e) => {
+  e.preventDefault();
+};
 
+function Header({ onChange }) {
   return (
-    <>
+    <div className={classes.header_cont}>
       <header className={classes.header}>
         <p className={classes.logo}>TMDB</p>
         <form>
@@ -15,13 +17,18 @@ function Header() {
             placeholder="Ki dekhenga"
             id="search-box"
             className={classes.searchInp}
+            onChange={onChange}
           />
-          <button type="submit" className={classes.searchButton}>
+          <button
+            type="submit"
+            onClick={searchButton}
+            className={classes.searchButton}
+          >
             &#128269;
           </button>
         </form>
       </header>
-    </>
+    </div>
   );
 }
 
