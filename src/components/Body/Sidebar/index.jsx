@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import { get } from "axios";
+import React, { createRef } from "react";
 
 import classes from "./index.module.css";
 
-function SideBar({ apiData, onClick }) {
-  //
-  const handleApiData = (apiData, num) => () => {};
+function SideBar({ apiData, onClick, makeGetCall }) {
+  const myRef = createRef();
+
+  const handleApiData = (num) => () => {
+    makeGetCall(num) && myRef.current.scrollTo(0, 0);
+  };
 
   return (
     apiData && (
-      <nav className={classes.navBar}>
+      <nav className={classes.navBar} ref={myRef}>
         <ul className={classes.ul}>
           {apiData.results.map((data) => {
             return (
@@ -31,18 +33,22 @@ function SideBar({ apiData, onClick }) {
           })}
         </ul>
         <div className={classes.page_nav}>
-          <button
-            className={`${classes.page_nav_button} ${classes.pad_10}`}
-            onClick={handleApiData(apiData, apiData.page - 1)}
-          >
-            prev
-          </button>
-          <button
-            className={`${classes.page_nav_button} ${classes.pad_20LR}`}
-            onClick={handleApiData(apiData, apiData.page + 1)}
-          >
-            move to {apiData.page + 1}
-          </button>
+          {apiData.page > 1 && (
+            <button
+              className={`${classes.page_nav_button} ${classes.pad_10}`}
+              onClick={handleApiData(apiData.page - 1)}
+            >
+              prev
+            </button>
+          )}
+          {apiData.page < 500 && (
+            <button
+              className={`${classes.page_nav_button} ${classes.pad_20LR}`}
+              onClick={handleApiData(apiData.page + 1)}
+            >
+              move to {apiData.page + 1}
+            </button>
+          )}
         </div>
       </nav>
     )

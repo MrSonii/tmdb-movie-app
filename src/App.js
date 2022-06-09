@@ -7,25 +7,25 @@ import SideBar from "./components/Body/Sidebar";
 import Main from "./components/Body/Main";
 
 function App() {
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = useState("a");
   const [apiData, setApiData] = useState("");
   const [detailScreen, setDetailScreen] = useState(false);
   const [currMov, setCurrMovie] = useState(null);
 
-  const makeGetCall = async () => {
+  const makeGetCall = async (num) => {
     const resp = await get(
-      "https://api.themoviedb.org/3/search/movie?api_key=5d98a7a1405b8032e28c31e19e4d10a9&language=en-US&query=a&page=1&include_adult=false"
+      `https://api.themoviedb.org/3/search/movie?api_key=5d98a7a1405b8032e28c31e19e4d10a9&language=en-US&query=${userInput}&page=${num}&include_adult=false`
     );
     setApiData(resp.data);
     console.log(resp.data);
   };
 
   useEffect(() => {
-    makeGetCall();
-  }, []);
+    makeGetCall(1);
+  }, [userInput]);
 
-  const onInputChangeHandeler = (e) => {
-    setUserInput(e.target.value);
+  const onInputChangeHandeler = (ref) => {
+    setUserInput(ref.current.value === "" ? "a" : ref.current.value);
   };
 
   const showScreen = (e) => {

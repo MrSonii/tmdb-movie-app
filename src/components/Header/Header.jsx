@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react";
 
 import classes from "./Header.module.css";
 
@@ -7,6 +7,21 @@ const searchButton = (e) => {
 };
 
 function Header({ onChange }) {
+  const myRef = createRef();
+
+  const debounce = (func, timeout = 400) => {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        console.log("input changed");
+        func.apply(this, args);
+      }, timeout);
+    };
+  };
+
+  const searchHandeler = debounce(() => onChange(myRef));
+
   return (
     <header className={classes.header}>
       <p className={classes.logo}>TMDB</p>
@@ -16,7 +31,8 @@ function Header({ onChange }) {
           placeholder="Ki dekhenga"
           id="search-box"
           className={classes.searchInp}
-          onChange={onChange}
+          ref={myRef}
+          onChange={searchHandeler}
         />
         <button
           type="submit"
