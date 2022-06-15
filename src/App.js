@@ -1,51 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { get } from "axios";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./App.css";
+import { GetData, movDatahandler, ScreenHandeler } from "./redux/action";
+
 import Header from "./components/Header/Header";
 import SideBar from "./components/Body/Sidebar";
 import Main from "./components/Body/Main";
 
 function App() {
-  const [userInput, setUserInput] = useState("a");
-  const [apiData, setApiData] = useState("");
-  const [detailScreen, setDetailScreen] = useState(false);
-  const [currMov, setCurrMovie] = useState(null);
-
-  const makeGetCall = async (num) => {
-    const resp = await get(
-      `https://api.themoviedb.org/3/search/movie?api_key=5d98a7a1405b8032e28c31e19e4d10a9&language=en-US&query=${userInput}&page=${num}&include_adult=false`
-    );
-    setApiData(resp.data);
-    console.log(resp.data);
-  };
+  const dispatch = useDispatch();
+  const { hideScreen, movData, userInput } = useSelector((state) => state.data);
 
   useEffect(() => {
-    makeGetCall(1);
-  }, [userInput]);
-
-  const onInputChangeHandeler = (ref) => {
-    setUserInput(ref.current.value === "" ? "a" : ref.current.value);
-  };
+    dispatch(GetData(userInput, 1));
+  }, []);
 
   const showScreen = (e) => {
-    setDetailScreen(true);
-    setCurrMovie(JSON.parse(e.currentTarget.dataset.all));
+    dispatch(ScreenHandeler(!hideScreen));
+    dispatch(movDatahandler(JSON.parse(e.currentTarget.dataset.all)));
   };
 
-  const hideScreen = () => {
-    setDetailScreen(false);
-  };
   return (
     <div>
-      <Header onChange={onInputChangeHandeler} />
+      <Header />
       <div className="body-cont">
-        <SideBar
-          apiData={apiData}
-          onClick={showScreen}
-          makeGetCall={makeGetCall}
-        />
-        {detailScreen && <Main data={currMov} onClick={hideScreen} />}
+        <SideBar onClick={showScreen} />
+        {hideScreen && <Main data={movData} />}
       </div>
     </div>
   );

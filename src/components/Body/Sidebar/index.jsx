@@ -1,19 +1,24 @@
 import React, { createRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./index.module.css";
+import { GetData } from "../../../redux/action";
 
-function SideBar({ apiData, onClick, makeGetCall }) {
+function SideBar({ onClick }) {
+  const { allProductData } = useSelector((state) => state.data);
+
   const myRef = createRef();
+  const dispatch = useDispatch();
 
   const handleApiData = (num) => () => {
-    makeGetCall(num) && myRef.current.scrollTo(0, 0);
+    dispatch(GetData(num)) && myRef.current.scrollTo(0, 0);
   };
 
   return (
-    apiData && (
+    allProductData.results && (
       <nav className={classes.navBar} ref={myRef}>
         <ul className={classes.ul}>
-          {apiData.results.map((data) => {
+          {allProductData.results.map((data) => {
             return (
               <li
                 key={data.id}
@@ -33,20 +38,20 @@ function SideBar({ apiData, onClick, makeGetCall }) {
           })}
         </ul>
         <div className={classes.page_nav}>
-          {apiData.page > 1 && (
+          {allProductData.page > 1 && (
             <button
               className={`${classes.page_nav_button} ${classes.pad_10}`}
-              onClick={handleApiData(apiData.page - 1)}
+              onClick={handleApiData(allProductData.page - 1)}
             >
               prev
             </button>
           )}
-          {apiData.page < 500 && (
+          {allProductData.page < 500 && (
             <button
               className={`${classes.page_nav_button} ${classes.pad_20LR}`}
-              onClick={handleApiData(apiData.page + 1)}
+              onClick={handleApiData(allProductData.page + 1)}
             >
-              move to {apiData.page + 1}
+              move to {allProductData.page + 1}
             </button>
           )}
         </div>
