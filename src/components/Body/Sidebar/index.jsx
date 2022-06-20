@@ -1,30 +1,33 @@
-import React, { createRef } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getReq, screen } from "../../../redux/action";
 
 import classes from "./index.module.css";
-import { GetData } from "../../../redux/action";
 
-function SideBar({ onClick }) {
-  const { allProductData } = useSelector((state) => state.data);
-
-  const myRef = createRef();
+function SideBar() {
   const dispatch = useDispatch();
 
+  const { apiData } = useSelector((state) => state.data);
+
   const handleApiData = (num) => () => {
-    dispatch(GetData(num)) && myRef.current.scrollTo(0, 0);
+    dispatch(getReq({ pageNum: num }));
+  };
+
+  const showScreen = () => {
+    dispatch(screen(true));
   };
 
   return (
-    allProductData.results && (
-      <nav className={classes.navBar} ref={myRef}>
+    apiData.results && (
+      <nav className={classes.navBar}>
         <ul className={classes.ul}>
-          {allProductData.results.map((data) => {
+          {apiData.results.map((data) => {
             return (
               <li
                 key={data.id}
                 data-all={JSON.stringify(data)}
                 className={classes.li}
-                onClick={onClick}
+                onClick={showScreen}
               >
                 <img
                   className={classes.poster}
@@ -38,20 +41,20 @@ function SideBar({ onClick }) {
           })}
         </ul>
         <div className={classes.page_nav}>
-          {allProductData.page > 1 && (
+          {apiData.page > 1 && (
             <button
               className={`${classes.page_nav_button} ${classes.pad_10}`}
-              onClick={handleApiData(allProductData.page - 1)}
+              onClick={handleApiData(apiData.page - 1)}
             >
               prev
             </button>
           )}
-          {allProductData.page < 500 && (
+          {apiData.page < 500 && (
             <button
               className={`${classes.page_nav_button} ${classes.pad_20LR}`}
-              onClick={handleApiData(allProductData.page + 1)}
+              onClick={handleApiData(apiData.page + 1)}
             >
-              move to {allProductData.page + 1}
+              move to {apiData.page + 1}
             </button>
           )}
         </div>

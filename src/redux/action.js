@@ -1,50 +1,27 @@
-import * as types from "./types";
-import { get } from "axios";
+import * as types from "./types.js";
 
-const getDataReq = (payload) => ({ type: types.GET_DATA_REQ, payload });
+export const getReq = (payload) => ({ type: types.GET_REQ, payload });
 
-const getDataSucc = (payload) => ({ type: types.GET_DATA_SUCCESS, payload });
+export const getReqSucc = (payload) => ({ type: types.GET_REQ_SUCC, payload });
 
-const getDataFail = (payload) => ({ type: types.GET_DATA_FAILED, payload });
+export const getReqFail = (payload) => ({ type: types.GET_REQ_FAIL, payload });
 
-const hideScreen = (payload) => ({ type: types.SHOW_SCREEN, payload });
+export const getUserInp = (payload) => ({ type: types.USER_INPUT, payload });
 
-const movScreen = (payload) => ({ type: types.MOV_DATA, payload });
+export const screen = (payload) => ({ type: types.SCREEN, payload });
 
-const userInp = (payload) => ({ type: types.USER_INPUT, payload });
+export const pageNum = (payload) => ({ type: types.PAGE_NUM, payload });
 
-const GetData = (num, query = "a") => async (dispatch) => {
-  dispatch(getDataReq("loading"));
-  try {
-    await get(
-      `https://api.themoviedb.org/3/search/movie?api_key=5d98a7a1405b8032e28c31e19e4d10a9&language=en-US&query=${query}&page=${num}&include_adult=false`
-    ).then((res) => {
-      dispatch(getDataSucc(res.data));
-      console.log(res.data);
-    });
-  } catch (error) {
-    dispatch(getDataFail(error));
-  }
-};
+// export const getData = () => async (dispatch) => {
+//   dispatch(getReq("loading"));
+//   try {
+//     const resp = await get(
+//       "https://api.themoviedb.org/3/search/movie?api_key=5d98a7a1405b8032e28c31e19e4d10a9&language=en-US&query=a&page=2&include_adult=false"
+//     );
+//     const { data } = resp;
 
-const ScreenHandeler = (bool) => (dispatch) => {
-  dispatch(hideScreen(bool));
-};
-
-const movDatahandler = (data) => (dispatch) => {
-  dispatch(movScreen(data));
-};
-
-const userInputHandeler = (inp) => (dispatch) => {
-  dispatch(userInp(inp));
-};
-
-export {
-  GetData,
-  ScreenHandeler,
-  movDatahandler,
-  userInputHandeler,
-  hideScreen,
-  movScreen,
-  userInp,
-};
+//     dispatch(getReqSucc(data));
+//   } catch (error) {
+//     dispatch(getReqFail(error));
+//   }
+// };

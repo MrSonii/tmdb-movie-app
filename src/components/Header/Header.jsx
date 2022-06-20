@@ -1,17 +1,17 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { GetData, userInputHandeler } from "../../redux/action";
+import { useDispatch } from "react-redux";
+import { getReq } from "../../redux/action";
 import classes from "./Header.module.css";
 
 function Header() {
-  //
   const dispatch = useDispatch();
-  const { userInput } = useSelector((state) => state.data);
 
   const onInputChangeHandeler = (e) => {
-    dispatch(userInputHandeler(e.target.value === "" ? "a" : e.target.value));
-    dispatch(GetData(1, userInput));
+    dispatch(
+      getReq({
+        userInput: e.target.value === "" ? "a" : e.target.value,
+      })
+    );
   };
 
   const debounce = (func, timeout = 400) => {

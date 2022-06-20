@@ -1,16 +1,9 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ScreenHandeler } from "../../../redux/action";
 
 import classes from "./index.module.css";
 
 function Main({ data }) {
-  const dispatch = useDispatch();
-  const { hideScreen } = useSelector((state) => state.data);
-
-  const hideShowScreen = (bool) => () => {
-    dispatch(ScreenHandeler(bool));
-  };
+  const hideShowScreen = (bool) => () => {};
 
   return (
     <div className={classes.main}>
@@ -33,9 +26,9 @@ function Main({ data }) {
         src={`https://image.tmdb.org/t/p/w220_and_h330_face${data.backdrop_path}`}
         alt=""
       />
-      <button className={classes.close} onClick={hideShowScreen(!hideScreen)}>
+      {/* <button className={classes.close} onClick={hideShowScreen(!hideScreen)}>
         <span>&#10060;</span>
-      </button>
+      </button> */}
     </div>
   );
 }

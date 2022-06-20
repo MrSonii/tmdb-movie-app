@@ -1,33 +1,50 @@
-import * as types from "./types";
+import * as types from "./types.js";
 
 const initialState = {
-  loading: false,
-  hideScreen: false,
-  movData: {},
-  userInput: "a",
-  allProductData: {},
   error: "",
-  productDetails: [],
+  loading: false,
+  apiData: {},
+  screen: false,
+  userInput: "a",
+  pageNum: 1,
 };
 
-const dataReducer = (state = initialState, { type, payload }) => {
+export const dataReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case types.GET_DATA_REQ:
-      return { ...state, loading: true, error: payload };
-    case types.GET_DATA_SUCCESS:
-      return { ...state, loading: false, allProductData: payload };
-    case types.GET_DATA_FAILED:
-      return { ...state, loading: false, error: payload };
-    case types.SHOW_SCREEN:
-      return { ...state, hideScreen: payload };
-    case types.MOV_DATA:
-      return { ...state, movData: payload };
+    case types.GET_REQ:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.GET_REQ_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+    case types.GET_REQ_SUCC:
+      return {
+        ...state,
+        loading: false,
+        apiData: payload,
+      };
     case types.USER_INPUT:
-      return { ...state, userInput: payload };
+      return {
+        ...state,
+        userInput: payload,
+      };
+    case types.SCREEN:
+      return {
+        ...state,
+        screen: payload,
+      };
+    case types.PAGE_NUM:
+      return {
+        ...state,
+        pageNum: payload,
+      };
 
     default:
       return state;
   }
 };
-
-export default dataReducer;
